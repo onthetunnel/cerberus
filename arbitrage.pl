@@ -31,15 +31,18 @@ try:
     # Get prices
     prices = []
     for t in trades:
-      url = construct_url(t[0], t[1], t[2])
+      exchange = t[0]
+      url = construct_url(exchange, t[1], t[2])
       r = requests.get(url)
       price = r.json()
-      prices.append([t[0], price[sym2]])
+      prices.append([exchange, float(price[sym2])])
 	  
     # Sort and print
-    # prices.sort()
-    for p in prices:
-      print(p[0], p[1])
+    prices.sort()
+    i = 0
+    while i < len(prices):
+      print(prices[i][0], prices[i][1] / prices[len(prices) - 1][1])
+      i = i + 1
 
 except Exception as e:
     print("exception ", e)
