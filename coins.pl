@@ -12,7 +12,7 @@ try:
 
     results = []
     sym1 = "BTC"
-    sym2 = "GBP"
+    sym2 = "EUR"
 
     # Look for exchange that offer the pairs we're interested in
     for name in exchanges:
