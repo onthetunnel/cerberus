@@ -13,9 +13,11 @@ try:
     r = requests.get(url)
     exchanges = r.json();
 
+    to_symbol = "BTC"
+
     for name in exchanges:
       for from_symbol in exchanges[name]:
-         for to_symbol in exchanges[name][from_symbol]:
+         if to_symbol in exchanges[name][from_symbol]:
            print (name + " -- \"" + from_symbol + "-" + to_symbol + "\"")
 
     print("}")
