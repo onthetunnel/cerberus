@@ -8,6 +8,7 @@ def construct_url(exchange, from_symbol, to_symbol):
   url += "e=" + exchange
   url += "&fsym=" + from_symbol
   url += "&tsyms=" + to_symbol
+  print(".", end="", flush=True)
   return url
 
 try:
@@ -18,7 +19,7 @@ try:
     all_coins = r.json()
 
     entry_currency = "GBP"
-    exit_currency = "HRK"
+    exit_currency = "EUR"
     entry_value = 1
 
     # Construct a list of URLs for the currency pair we're interested in
@@ -43,21 +44,29 @@ try:
     print(entry_coins, "entry coins")
 
     print(len(exit_points), "exit points")
+    exchange_rates = []
     for trade in exit_points:
       if trade[1] in entry_coins:
         url = construct_url(trade[0], trade[1], trade[2])
         r = requests.get(url)
         price = r.json()
         exchange_value = entry_value / float(price[trade[2]])
-        print("EXIT\t", trade, price[trade[2]], "\t", exchange_value)
         for entry in entry_points:
           if entry[1] == trade[1]:
-          # print("ENTRY\t", entry)
             url = construct_url(entry[0], entry[1], entry[2])
             r = requests.get(url)
             price = r.json()
             exit_value = exchange_value * float(price[entry[2]])
-            print("\t", entry, price[entry[2]], "\t", exit_value)
+            exchange_rates.append([exit_value,
+                    str(entry_value) + " " + entry[2] + " > " + entry[0] + " > "
+                    + entry[1] + " " +  str(entry_value / price[entry[2]]) + " " + 
+                    " > " + trade[0] + " > " + trade[2]])
+
+    print("got prices")
+
+    exchange_rates.sort()
+    for rate in exchange_rates:
+      print(rate[0], "\t", rate[1])
 
 except Exception as e:
     print("exception ", e)
