@@ -11,6 +11,13 @@ def construct_url(exchange, from_symbol, to_symbol):
   print(".", end="", flush=True)
   return url
 
+# Get the spot price for a trade
+def get_spot(exchange, from_symbol, to_symbol):
+      url = construct_url(exchange, from_symbol, to_symbol)
+      r = requests.get(url)
+      price = r.json()
+      return float(price[to_symbol])
+
 try:
 
     # Get all pairs from all exchanges
@@ -18,55 +25,51 @@ try:
     r = requests.get(url)
     all_coins = r.json()
 
-    entry_currency = "GBP"
-    exit_currency = "EUR"
-    entry_value = 1
-
     # Construct a list of URLs for the currency pair we're interested in
+    from_symbols = ["BTC", "ETH", "LTC", "ETC", "DASH"]
     currency_pairs = []
     for exchange in all_coins:
       for from_symbol in all_coins[exchange]:
-        for to_symbol in all_coins[exchange][from_symbol]:
-          currency_pairs.append([exchange, from_symbol, to_symbol])
+        if from_symbol in from_symbols:
+          for to_symbol in all_coins[exchange][from_symbol]:
+            currency_pairs.append([exchange, from_symbol, to_symbol])
 
     print(len(currency_pairs), "currency pairs")
 
+    entry_currency = "INR"
+    exit_currency = "INR"
     entry_points = []
     exit_points = []
-    entry_coins = set()
     for pair in currency_pairs:
-      if pair[2] == entry_currency:
-        entry_points.append(pair)
-        entry_coins.add(pair[1])
-      if pair[2] == exit_currency:
-        exit_points.append(pair)
+      if pair[2] == entry_currency: entry_points.append(pair)
+      if pair[2] == exit_currency: exit_points.append(pair)
 
-    print(entry_coins, "entry coins")
+    print("\nENTRY")
+    for trade in entry_points: print(trade)
 
-    print(len(exit_points), "exit points")
-    exchange_rates = []
-    for trade in exit_points:
-      if trade[1] in entry_coins:
-        url = construct_url(trade[0], trade[1], trade[2])
-        r = requests.get(url)
-        price = r.json()
-        exchange_value = entry_value / float(price[trade[2]])
-        for entry in entry_points:
-          if entry[1] == trade[1]:
-            url = construct_url(entry[0], entry[1], entry[2])
-            r = requests.get(url)
-            price = r.json()
-            exit_value = exchange_value * float(price[entry[2]])
-            exchange_rates.append([exit_value,
-                    str(entry_value) + " " + entry[2] + " > " + entry[0] + " > "
-                    + entry[1] + " " +  str(entry_value / price[entry[2]]) + " " + 
-                    " > " + trade[0] + " > " + trade[2]])
+    print("\nEXIT")
+    for trade in exit_points: print(trade)
 
-    print("got prices")
+    # Arbitrage
+    arbitrage = []
+    for trade in entry_points:
+      exchange = trade[0]
+      from_symbol = trade[1]
+      to_symbol = trade[2]
+      spot = get_spot(exchange, from_symbol, to_symbol)
+      # print("ENTRY", trade, spot)
+      for to_trade in exit_points:
+      	if to_trade[1] == trade[1]:
+          to_spot = get_spot(to_trade[0], to_trade[1], to_trade[2])
+          # print("\t", to_trade, to_spot, spot / to_spot)
+          arbitrage.append([spot / to_spot, exchange, to_symbol, to_trade[0],
+                          to_trade[2]])
 
-    exchange_rates.sort()
-    for rate in exchange_rates:
-      print(rate[0], "\t", rate[1])
+    # Sort and report
+    print("\nARBITRAGE")
+    arbitrage.sort()
+    for trade in arbitrage:
+      print(trade)
 
 except Exception as e:
     print("exception ", e)
