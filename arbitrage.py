@@ -40,8 +40,8 @@ try:
             currency_pairs.append([exchange, from_symbol, to_symbol])
 
     print(len(currency_pairs), "currency pairs listed across all exchanges")
-    entry_currency = "MXN"
-    exit_currency = "INR"
+    entry_currency = "GBP"
+    exit_currency = "MXN"
     print("Calculating exchange rates from", entry_currency, "to", exit_currency,
             "via 1 crypto currency")
 
