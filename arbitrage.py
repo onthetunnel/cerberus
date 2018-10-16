@@ -3,6 +3,7 @@
 import json
 import requests
 
+# Create a CryptoCompare URL from an exchange and a pair of symbols
 def construct_url(exchange, from_symbol, to_symbol):
   url = "https://min-api.cryptocompare.com/data/price?"
   url += "e=" + exchange
