@@ -39,7 +39,7 @@ try:
 
     print(len(currency_pairs), "currency pairs listed across all exchanges")
     entry_currency = "GBP"
-    exit_currency = "GBP"
+    exit_currency = "HRK"
     print("Calculating exchange rates from", entry_currency, "to", exit_currency,
             "via 1 crypto currency")
 
@@ -67,20 +67,28 @@ try:
 
     # Arbitrage
     arbitrage = []
-    for trade in entry_points:
-      exchange = trade[0]
-      from_symbol = trade[1]
-      to_symbol = trade[2]
-      for to_trade in exit_points:
-      	if to_trade[1] == trade[1]:
-          arbitrage.append([to_trade[3] / trade[3], exchange, to_symbol,
-                          to_trade[0], to_trade[2]])
+    for trade1 in entry_points:
+      exchange1 = trade1[0]
+      from1 = trade1[1]
+      to1 = trade1[2]
+      spot1 = trade1[3]
+
+      for trade2 in exit_points:
+        exchange2 = trade2[0]
+        from2 = trade2[1]
+        to2 = trade2[2]
+        spot2 = trade2[3]
+
+        if from1 == from2:
+          arbitrage.append([spot2 / spot1, to1, exchange1, from1, exchange2, to2])
 
     # Sort and report
     print("\nARBITRAGE")
     arbitrage.sort()
     for trade in arbitrage:
-      print(trade)
+      for x in trade:
+        print(x, end=" ")
+      print()
 
 except Exception as e:
     print("exception ", e)
