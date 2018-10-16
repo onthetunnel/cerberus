@@ -26,10 +26,12 @@ try:
     r = requests.get(url)
     all_coins = r.json()
 
-    # Get all currency pairs for all exchanges
+    # Exchanges we're not interested in
     exchange_blacklist = ["MonetaGo", "Lykke", "CCEDK", "Zecoex", "ExtStock",
             "EthexIndia", "Quoine", "Yacuna", "BTCE", "Cryptsy", "Abucoins",
             "WEX", "Cexio", "CCEX", "Coinsetter", "Bitlish", "BTER"]
+
+    # Get all currency pairs for all exchanges
     currency_pairs = []
     for exchange in all_coins:
       if exchange not in exchange_blacklist:
