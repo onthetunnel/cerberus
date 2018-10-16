@@ -41,7 +41,7 @@ try:
 
     print(len(currency_pairs), "currency pairs listed across all exchanges")
     entry_currency = "GBP"
-    exit_currency = "USD"
+    exit_currency = "INR"
     print("Calculating exchange rates from", entry_currency, "to", exit_currency,
             "via 1 crypto currency")
 
