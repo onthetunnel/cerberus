@@ -40,8 +40,8 @@ try:
             currency_pairs.append([exchange, from_symbol, to_symbol])
 
     print(len(currency_pairs), "currency pairs listed across all exchanges")
-    entry_currency = "GBP"
-    exit_currency = "INR"
+    entry_currency = "INR"
+    exit_currency = "GBP"
     print("Calculating exchange rates from", entry_currency, "to", exit_currency,
             "via 1 crypto currency")
 
@@ -67,7 +67,7 @@ try:
     print(len(entry_points), "entry points")
     print(len(exit_points), "exit points")
 
-    # Arbitrage
+    # Arbitrage - loop over each entry point
     arbitrage = []
     for trade1 in entry_points:
       exchange1 = trade1[0]
@@ -75,16 +75,24 @@ try:
       to1 = trade1[2]
       spot1 = trade1[3]
 
+      # And compare with each exit point
       for trade2 in exit_points:
         exchange2 = trade2[0]
         from2 = trade2[1]
         to2 = trade2[2]
         spot2 = trade2[3]
 
+        # Store if the trades share a common currency
         if from1 == from2:
           arbitrage.append([spot2 / spot1, to1, exchange1, from1, exchange2, to2])
 
     # Sort and report
+    print("\nENTRIES")
+    for entry in entry_points: print(entry)
+
+    print("\nEXITS")
+    for entry in exit_points: print(entry)
+
     print("\nARBITRAGE")
     arbitrage.sort()
     for trade in arbitrage:
