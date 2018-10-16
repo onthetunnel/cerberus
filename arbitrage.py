@@ -6,9 +6,17 @@ import requests
 def construct_url(exchange, from_symbol, to_symbol):
   url = "https://min-api.cryptocompare.com/data/price?"
   url += "e=" + exchange
-  url += "&fsym=" + sym1
-  url += "&tsyms=" + sym2
+  url += "&fsym=" + from_symbol
+  url += "&tsyms=" + to_symbol
+  print(".", end="", flush=True)
   return url
+
+# Get the spot price for a trade
+def get_spot(exchange, from_symbol, to_symbol):
+      url = construct_url(exchange, from_symbol, to_symbol)
+      r = requests.get(url)
+      price = r.json()
+      return float(price[to_symbol])
 
 try:
 
@@ -17,42 +25,61 @@ try:
     r = requests.get(url)
     all_coins = r.json()
 
-    # Construct a list of URLs for the currency pair we're interested in
-    trades = []
-    sym1 = "BTC"
-    sym2 = "USD"
+    # Get all currency pairs for all exchanges
+    exchange_blacklist = ["MonetaGo", "Lykke", "CCEDK", "Zecoex", "ExtStock",
+            "EthexIndia", "Quoine", "Yacuna", "BTCE", "Cryptsy", "Abucoins",
+            "WEX", "Cexio", "CCEX", "Coinsetter", "Bitlish", "BTER"]
+    currency_pairs = []
     for exchange in all_coins:
-      for from_symbol in all_coins[exchange]:
-        if from_symbol in sym1:
+      if exchange not in exchange_blacklist:
+        for from_symbol in all_coins[exchange]:
           for to_symbol in all_coins[exchange][from_symbol]:
-            if to_symbol in sym2:
-              trades.append([exchange, from_symbol, to_symbol])
+            currency_pairs.append([exchange, from_symbol, to_symbol])
 
-    print(len(trades), "viable exchanges")
+    print(len(currency_pairs), "currency pairs listed across all exchanges")
+    entry_currency = "GBP"
+    exit_currency = "INR"
+    print("Calculating exchange rates from", entry_currency, "to", exit_currency,
+            "via 1 crypto currency")
 
-    # Get latest rates
-    prices = []
-    for t in trades:
-      exchange = t[0]
-      url = construct_url(exchange, t[1], t[2])
-      r = requests.get(url)
-      price = r.json()
-      prices.append([exchange, float(price[sym2])])
-	  
-    # Calculate exchange ratios between exchanges
-    i = 0
-    ri = len(prices) - 1
-    rates = []
-    while i < len(prices):
-      rates.append([prices[i][1] / prices[ri][1], prices[i][0]
-                      + " > " + prices[ri][0]])
-      i = i + 1
-      ri = ri - 1
+    # Extract the viable entry and exit points for our trade
+    entry_points = []
+    exit_points = []
+    for trade in currency_pairs:
+      exchange = trade[0]
+      from_symbol = trade[1]
+      to_symbol = trade[2]
+
+      # Store entry points and get spot
+      if to_symbol == entry_currency:
+        trade.append(get_spot(exchange, from_symbol, to_symbol))
+        entry_points.append(trade)
+
+      # Store exit points and get spot
+      if to_symbol == exit_currency:
+        trade.append(get_spot(exchange, from_symbol, to_symbol))
+        exit_points.append(trade)
+
+    print("got prices")
+    print(len(entry_points), "entry points")
+    print(len(exit_points), "exit points")
+
+    # Arbitrage
+    arbitrage = []
+    for trade in entry_points:
+      exchange = trade[0]
+      from_symbol = trade[1]
+      to_symbol = trade[2]
+      for to_trade in exit_points:
+      	if to_trade[1] == trade[1]:
+          arbitrage.append([to_trade[3] / trade[3], exchange, to_symbol,
+                          to_trade[0], to_trade[2]])
 
     # Sort and report
-    rates.sort()
-    for r in rates:
-      print(r[0], "\t", r[1])
+    print("\nARBITRAGE")
+    arbitrage.sort()
+    for trade in arbitrage:
+      print(trade)
 
 except Exception as e:
     print("exception ", e)
