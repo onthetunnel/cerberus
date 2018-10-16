@@ -1,2 +1,2 @@
 all: 
-	./arbitrage.py
+	./triangular.py

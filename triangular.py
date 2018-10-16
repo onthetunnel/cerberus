@@ -37,10 +37,11 @@ try:
             currency_pairs.append([exchange, from_symbol, to_symbol])
 
     print(len(currency_pairs), "currency pairs listed across all exchanges")
+    entry_currency = "GBP"
+    exit_currency = "HRK"
+    print("Calculating exchange rates from", entry_currency, "to", exit_currency)
 
     # Extract the viable entry and exit points for our trade
-    entry_currency = "USD"
-    exit_currency = "INR"
     entry_points = []
     exit_points = []
     for trade in currency_pairs:
