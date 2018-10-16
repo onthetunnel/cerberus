@@ -26,16 +26,20 @@ try:
     all_coins = r.json()
 
     # Get all currency pairs for all exchanges
+    exchange_blacklist = ["MonetaGo", "Lykke", "CCEDK", "Zecoex", "ExtStock",
+            "EthexIndia", "Quoine", "Yacuna", "BTCE", "Cryptsy", "Abucoins",
+            "WEX", "Cexio", "CCEX", "Coinsetter", "Bitlish", "BTER"]
     currency_pairs = []
     for exchange in all_coins:
-      for from_symbol in all_coins[exchange]:
-        for to_symbol in all_coins[exchange][from_symbol]:
-          currency_pairs.append([exchange, from_symbol, to_symbol])
+      if exchange not in exchange_blacklist:
+        for from_symbol in all_coins[exchange]:
+          for to_symbol in all_coins[exchange][from_symbol]:
+            currency_pairs.append([exchange, from_symbol, to_symbol])
 
     print(len(currency_pairs), "currency pairs listed across all exchanges")
 
     # Extract the viable entry and exit points for our trade
-    entry_currency = "GBP"
+    entry_currency = "USD"
     exit_currency = "INR"
     entry_points = []
     exit_points = []
