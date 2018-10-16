@@ -87,7 +87,7 @@ try:
     arbitrage.sort()
     for trade in arbitrage:
       for x in trade:
-        print(x, end=" > ")
+        print(x, end="\t")
       print()
 
 except Exception as e:
