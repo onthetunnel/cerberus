@@ -40,8 +40,8 @@ try:
             currency_pairs.append([exchange, from_symbol, to_symbol])
 
     print(len(currency_pairs), "currency pairs listed across all exchanges")
-    entry_currency = "EUR"
-    exit_currency = "HRK"
+    entry_currency = "GBP"
+    exit_currency = "USD"
     print("Calculating exchange rates from", entry_currency, "to", exit_currency,
             "via 1 crypto currency")
 
