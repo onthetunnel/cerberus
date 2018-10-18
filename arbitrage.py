@@ -47,7 +47,7 @@ try:
             currency_pairs.append([exchange, from_symbol, to_symbol])
 
     entry_currency = "GBP"
-    exit_currency = "EUR"
+    exit_currency = "GBP"
 
     # Extract the viable entry and exit points for our trade
     entry_points = []
