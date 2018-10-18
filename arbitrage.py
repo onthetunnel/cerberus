@@ -97,15 +97,16 @@ try:
           arbitrage.append([spot2 / spot1, to1, exchange1, from1, exchange2, to2])
 
     # Sort and report
-    print("# ENTRIES")
-    tabulate(entry_points)
-
-    print("# EXITS")
-    tabulate(exit_points)
-
-    print("# ARBITRAGE")
+    print("# Triangular arbitrage")
     arbitrage.sort()
     tabulate(arbitrage)
+
+    print("# Entry points\nConverting fiat to crypto currency.")
+    tabulate(entry_points)
+
+    print("# Exit points\nConverting crypto back to target fiat currency.")
+    tabulate(exit_points)
+
 
 except Exception as e:
     print("exception ", e)
