@@ -46,8 +46,8 @@ try:
           for to_symbol in all_coins[exchange][from_symbol]:
             currency_pairs.append([exchange, from_symbol, to_symbol])
 
-    entry_currency = "GBP"
-    exit_currency = "GBP"
+    entry_currency = "EUR"
+    exit_currency = "EUR"
 
     # Extract the viable entry and exit points for our trade
     entry_points = []
