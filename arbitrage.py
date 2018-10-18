@@ -99,6 +99,7 @@ try:
     print("Fiat to crypto to fiat.")
 
     arbitrage.sort()
+    arbitrage.reverse()
     tabulate(arbitrage)
 
     print("# Entry points")
