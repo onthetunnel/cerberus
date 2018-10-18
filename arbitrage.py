@@ -92,6 +92,7 @@ try:
             "via 1 crypto currency")
     print("* Entry points", len(entry_points))
     print("* Exit points: ", len(exit_points))
+    print("* Prices fetched using the [CryptoCompare API](https://min-api.cryptocompare.com/)\n")
 
     # Sort and report
     print("# Triangular arbitrage")
