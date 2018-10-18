@@ -9,7 +9,6 @@ def construct_url(exchange, from_symbol, to_symbol):
   url += "e=" + exchange
   url += "&fsym=" + from_symbol
   url += "&tsyms=" + to_symbol
-  print(".", end="", flush=True)
   return url
 
 # Get the spot price for a trade
@@ -47,14 +46,10 @@ try:
           for to_symbol in all_coins[exchange][from_symbol]:
             currency_pairs.append([exchange, from_symbol, to_symbol])
 
-    print("* currency pairs listed across all exchanges", len(currency_pairs))
     entry_currency = "GBP"
     exit_currency = "MXN"
-    print("* Calculating exchange rates from", entry_currency, "to", exit_currency,
-            "via 1 crypto currency")
 
     # Extract the viable entry and exit points for our trade
-    print("```")
     entry_points = []
     exit_points = []
     for trade in currency_pairs:
@@ -71,11 +66,6 @@ try:
       if to_symbol == exit_currency:
         trade.append(get_spot(exchange, from_symbol, to_symbol))
         exit_points.append(trade)
-
-    print("got prices")
-    print("```")
-    print("* Entry points", len(entry_points))
-    print("* Exit points: ", len(exit_points))
 
     # Arbitrage - loop over each entry point
     arbitrage = []
@@ -96,17 +86,27 @@ try:
         if from1 == from2:
           arbitrage.append([spot2 / spot1, to1, exchange1, from1, exchange2, to2])
 
+    # Arbitrage summary
+    print("* currency pairs listed across all exchanges", len(currency_pairs))
+    print("* Calculating exchange rates from", entry_currency, "to", exit_currency,
+            "via 1 crypto currency")
+    print("* Entry points", len(entry_points))
+    print("* Exit points: ", len(exit_points))
+
     # Sort and report
     print("# Triangular arbitrage")
+    print("Fiat to crypto to fiat.")
+
     arbitrage.sort()
     tabulate(arbitrage)
 
-    print("# Entry points\nConverting fiat to crypto currency.")
+    print("# Entry points")
+    print("Converting fiat to crypto currency.")
     tabulate(entry_points)
 
-    print("# Exit points\nConverting crypto back to target fiat currency.")
+    print("# Exit points")
+    print("Converting crypto back to target fiat currency.")
     tabulate(exit_points)
-
 
 except Exception as e:
     print("exception ", e)
