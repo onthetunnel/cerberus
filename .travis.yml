@@ -1,6 +1,13 @@
 language: python
 python: "3.6"
-script: make
+script: make all deploy
 
 # This is implicit
 # pip install -r requirements
+#
+deploy:
+  provider: pages
+  github-token: ${api_key}
+  skip-cleanup: true
+  on:
+    branch: master

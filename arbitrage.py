@@ -29,7 +29,7 @@ try:
     # Exchanges we're not interested in
     exchange_blacklist = ["MonetaGo", "Lykke", "CCEDK", "Zecoex", "ExtStock",
             "EthexIndia", "Quoine", "Yacuna", "BTCE", "Cryptsy", "Abucoins",
-            "WEX", "Cexio", "CCEX", "Coinsetter", "Bitlish", "BTER"]
+            "WEX", "Cexio", "CCEX", "Coinsetter", "Bitlish", "BTER", "LocalBitcoins"]
 
     # Get all currency pairs for all exchanges
     currency_pairs = []
@@ -39,13 +39,14 @@ try:
           for to_symbol in all_coins[exchange][from_symbol]:
             currency_pairs.append([exchange, from_symbol, to_symbol])
 
-    print(len(currency_pairs), "currency pairs listed across all exchanges")
+    print("* currency pairs listed across all exchanges", len(currency_pairs))
     entry_currency = "GBP"
     exit_currency = "MXN"
-    print("Calculating exchange rates from", entry_currency, "to", exit_currency,
+    print("* Calculating exchange rates from", entry_currency, "to", exit_currency,
             "via 1 crypto currency")
 
     # Extract the viable entry and exit points for our trade
+    print("```")
     entry_points = []
     exit_points = []
     for trade in currency_pairs:
@@ -64,8 +65,9 @@ try:
         exit_points.append(trade)
 
     print("got prices")
-    print(len(entry_points), "entry points")
-    print(len(exit_points), "exit points")
+    print("```")
+    print("* Entry points", len(entry_points))
+    print("* Exit points: ", len(exit_points))
 
     # Arbitrage - loop over each entry point
     arbitrage = []
@@ -87,17 +89,17 @@ try:
           arbitrage.append([spot2 / spot1, to1, exchange1, from1, exchange2, to2])
 
     # Sort and report
-    print("\nENTRIES")
+    print("# ENTRIES")
     for entry in entry_points: print(entry)
 
-    print("\nEXITS")
+    print("# EXITS")
     for entry in exit_points: print(entry)
 
-    print("\nARBITRAGE")
+    print("# ARBITRAGE")
     arbitrage.sort()
     for trade in arbitrage:
       for x in trade:
-        print(x, end="\t")
+        print(x, end="|")
       print()
 
 except Exception as e:
