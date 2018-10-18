@@ -19,6 +19,14 @@ def get_spot(exchange, from_symbol, to_symbol):
       price = r.json()
       return float(price[to_symbol])
 
+def tabulate(table):
+    print()
+    for row in table:
+      for cell in row:
+        print(cell, end="|")
+      print()
+    print("\n")
+
 try:
 
     # Get all pairs from all exchanges
@@ -90,17 +98,14 @@ try:
 
     # Sort and report
     print("# ENTRIES")
-    for entry in entry_points: print(entry)
+    tabulate(entry_points)
 
     print("# EXITS")
-    for entry in exit_points: print(entry)
+    tabulate(exit_points)
 
     print("# ARBITRAGE")
     arbitrage.sort()
-    for trade in arbitrage:
-      for x in trade:
-        print(x, end="|")
-      print()
+    tabulate(arbitrage)
 
 except Exception as e:
     print("exception ", e)
