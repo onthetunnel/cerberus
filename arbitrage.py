@@ -42,7 +42,8 @@ try:
     # Exchanges we're not interested in
     exchange_blacklist = ["MonetaGo", "Lykke", "CCEDK", "Zecoex", "ExtStock",
             "EthexIndia", "Quoine", "Yacuna", "BTCE", "Cryptsy", "Abucoins",
-            "WEX", "Cexio", "CCEX", "Coinsetter", "Bitlish", "BTER", "LocalBitcoins"]
+            "WEX", "Cexio", "CCEX", "Coinsetter", "Bitlish", "BTER", "LocalBitcoins",
+            "Yobit", "WavesDEX"]
 
     # Get all currency pairs for all exchanges
     currency_pairs = []
