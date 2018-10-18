@@ -2,7 +2,7 @@
 
 import json
 import requests
-
+from collections import deque
 # Create a CryptoCompare URL from an exchange and a pair of symbols
 def construct_url(exchange, from_symbol, to_symbol):
   url = "https://min-api.cryptocompare.com/data/price?"
@@ -28,6 +28,12 @@ def tabulate(table):
 
 try:
 
+    # Get entry and exit currencies
+    f = open("currencies.txt")
+    currencies = deque(f.read().split())
+    entry_currency = currencies[0]
+    exit_currency = currencies[1]
+
     # Get all pairs from all exchanges
     url = 'https://min-api.cryptocompare.com/data/all/exchanges'
     r = requests.get(url)
@@ -45,9 +51,6 @@ try:
         for from_symbol in all_coins[exchange]:
           for to_symbol in all_coins[exchange][from_symbol]:
             currency_pairs.append([exchange, from_symbol, to_symbol])
-
-    entry_currency = "EUR"
-    exit_currency = "EUR"
 
     # Extract the viable entry and exit points for our trade
     entry_points = []
