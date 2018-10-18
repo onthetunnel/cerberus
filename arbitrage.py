@@ -87,7 +87,7 @@ try:
           arbitrage.append([spot2 / spot1, to1, exchange1, from1, exchange2, to2])
 
     # Arbitrage summary
-    print("* currency pairs listed across all exchanges", len(currency_pairs))
+    print("* ", len(currency_pairs), "currency pairs listed across all exchanges")
     print("* Calculating exchange rates from", entry_currency, "to", exit_currency,
             "via 1 crypto currency")
     print("* Entry points", len(entry_points))
