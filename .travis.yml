@@ -7,7 +7,7 @@ script: make all deploy
 #
 deploy:
   provider: pages
-  github-token: ${github-token}
+  github-token: ${api_key}
   skip-cleanup: true
   on:
     branch: master
