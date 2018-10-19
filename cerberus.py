@@ -44,10 +44,8 @@ try:
   all_coins = r.json()
 
   # Exchanges we're not interested in
-  exchange_blacklist = ["MonetaGo", "Lykke", "CCEDK", "Zecoex", "ExtStock",
-          "EthexIndia", "Quoine", "Yacuna", "BTCE", "Cryptsy", "Abucoins",
-          "WEX", "Cexio", "CCEX", "Coinsetter", "Bitlish", "BTER", "LocalBitcoins",
-          "Yobit", "WavesDEX"]
+  f = open("blacklist.txt")
+  exchange_blacklist = deque(f.read().split())
 
   # Get all currency pairs for all exchanges
   currency_pairs = []
@@ -58,6 +56,7 @@ try:
           currency_pairs.append([exchange, from_symbol, to_symbol])
 
   print("*", len(currency_pairs), "currency pairs listed across all exchanges")
+  print("*", len(exchange_blacklist), "blacklisted exchanges")
   print("* Prices fetched using the",
     "[CryptoCompare API](https://min-api.cryptocompare.com/)\n")
 
