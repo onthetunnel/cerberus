@@ -64,6 +64,9 @@ try:
   # Calculate arbitrage opportunities each target currency
   for c in currencies:
 
+    # Arbitrage summary - moved to the top to keep Travis happy
+    print("#", c, flush=True)
+
     entry_currency = c
     exit_currency = c
 
@@ -104,12 +107,9 @@ try:
         if from1 == from2:
           arbitrage.append([spot2 / spot1, to1, exchange1, from1, exchange2, to2])
 
-    # Arbitrage summary
-    print("#", c)
+    # Sort and report
     print("* Entry points", len(entry_points))
     print("* Exit points: ", len(exit_points))
-
-    # Sort and report
     arbitrage.sort()
     arbitrage.reverse()
     tabulate(arbitrage)
