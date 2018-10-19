@@ -28,7 +28,7 @@ def tabulate(table):
       print(cell, end="|")
     print()
     index += 1
-    if index >= 10:
+    if index >= 20:
         break
   print("\n")
 
@@ -56,6 +56,10 @@ try:
       for from_symbol in all_coins[exchange]:
         for to_symbol in all_coins[exchange][from_symbol]:
           currency_pairs.append([exchange, from_symbol, to_symbol])
+
+  print("*", len(currency_pairs), "currency pairs listed across all exchanges")
+  print("* Prices fetched using the",
+    "[CryptoCompare API](https://min-api.cryptocompare.com/)")
 
   # Calculate arbitrage opportunities each target currency
   for c in currencies:
@@ -102,12 +106,8 @@ try:
 
     # Arbitrage summary
     print("#", c)
-    print("*", len(currency_pairs), "currency pairs listed across all exchanges")
-    print("* Calculating exchange rates from", entry_currency, "to", exit_currency,
-            "via 1 crypto currency")
     print("* Entry points", len(entry_points))
     print("* Exit points: ", len(exit_points))
-    print("* Prices fetched using the [CryptoCompare API](https://min-api.cryptocompare.com/)\n")
 
     # Sort and report
     arbitrage.sort()
