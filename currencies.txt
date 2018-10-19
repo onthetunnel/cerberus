@@ -1,1 +1,4 @@
-EUR EUR
+INR
+GBP
+EUR
+MXN
