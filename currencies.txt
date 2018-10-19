@@ -1,5 +1,5 @@
 INR
 GBP
 EUR
-HRK
+MXN
 PLN

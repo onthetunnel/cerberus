@@ -106,7 +106,7 @@ try:
     # Arbitrage summary - sort and report
     print("#", c, flush=True)
     print("* Entry points", len(entry_points))
-    print("* Exit points", len(exit_points))
+    print("* Permutations", len(arbitrage))
     arbitrage.sort()
     arbitrage.reverse()
     tabulate(arbitrage)
