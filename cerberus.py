@@ -28,7 +28,7 @@ def tabulate(table):
       print(cell, end="|")
     print()
     index += 1
-    if index >= 20:
+    if index >= 40:
         break
   print("\n")
 

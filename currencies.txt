@@ -1,5 +1,6 @@
-INR
 GBP
 EUR
+INR
 MXN
 PLN
+RON
