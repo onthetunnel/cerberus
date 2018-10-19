@@ -3,3 +3,4 @@ GBP
 EUR
 USD
 HRK
+PLN

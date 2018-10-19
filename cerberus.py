@@ -59,7 +59,7 @@ try:
 
   print("*", len(currency_pairs), "currency pairs listed across all exchanges")
   print("* Prices fetched using the",
-    "[CryptoCompare API](https://min-api.cryptocompare.com/)")
+    "[CryptoCompare API](https://min-api.cryptocompare.com/)\n")
 
   # Calculate arbitrage opportunities each target currency
   for c in currencies:
@@ -106,8 +106,8 @@ try:
 
     # Arbitrage summary - sort and report
     print("#", c, flush=True)
-    print("* Entry points:", len(entry_points))
-    print("* Exit points:", len(exit_points))
+    print("* Entry points", len(entry_points))
+    print("* Exit points", len(exit_points))
     arbitrage.sort()
     arbitrage.reverse()
     tabulate(arbitrage)
