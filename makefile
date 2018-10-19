@@ -1,5 +1,5 @@
 all: tmp timestamp
-	./arbitrage.py | tee --append tmp/readme.md
+	./cerberus.py | tee --append tmp/readme.md
 
 tmp:
 	mkdir -p tmp
