@@ -1,6 +1,5 @@
 INR
 GBP
 EUR
-USD
 HRK
 PLN
