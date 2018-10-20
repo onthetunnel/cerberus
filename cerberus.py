@@ -28,7 +28,7 @@ def tabulate(table):
       print(cell, end="|")
     print()
     index += 1
-    if index >= 40:
+    if index >= 15:
         break
   print("\n")
 
@@ -45,18 +45,22 @@ try:
 
   # Exchanges we're not interested in
   f = open("blacklist.txt")
-  exchange_blacklist = deque(f.read().split())
+  blacklist = deque(f.read().split())
+
+  f = open("whitelist.txt")
+  whitelist = deque(f.read().split())
 
   # Get all currency pairs for all exchanges
   currency_pairs = []
   for exchange in all_coins:
-    if exchange not in exchange_blacklist:
+    if exchange in whitelist:
       for from_symbol in all_coins[exchange]:
         for to_symbol in all_coins[exchange][from_symbol]:
           currency_pairs.append([exchange, from_symbol, to_symbol])
 
   print("*", len(currency_pairs), "currency pairs listed across all exchanges")
-  print("*", len(exchange_blacklist), "blacklisted exchanges")
+  # print("*", len(blacklist), "blacklisted exchanges")
+  print("*", len(whitelist), "whitelisted exchanges")
   print("* Prices fetched using the",
     "[CryptoCompare API](https://min-api.cryptocompare.com/)\n")
 

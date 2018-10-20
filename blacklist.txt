@@ -22,3 +22,4 @@ BitSquare
 BitFlip
 Nexchange
 Liquid
+Remitano
