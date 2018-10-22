@@ -80,40 +80,45 @@ try:
 
       # Store entry points and get spot
       if to_symbol == entry_currency:
-        trade.append(get_spot(exchange, from_symbol, to_symbol))
-        entry_points.append(trade)
+        # trade.append(get_spot(exchange, from_symbol, to_symbol))
+        # entry_points.append(trade)
 
-      # Store exit points and get spot
-      if to_symbol == exit_currency:
-        trade.append(get_spot(exchange, from_symbol, to_symbol))
-        exit_points.append(trade)
-
-    # Arbitrage - loop over each entry point
-    arbitrage = []
-    for trade1 in entry_points:
-      exchange1 = trade1[0]
-      from1 = trade1[1]
-      to1 = trade1[2]
-      spot1 = trade1[3]
-
-      # And compare with each exit point
-      for trade2 in exit_points:
-        exchange2 = trade2[0]
-        from2 = trade2[1]
-        to2 = trade2[2]
-        spot2 = trade2[3]
-
-        # Store if the trades share a common currency
-        if from1 == from2:
-          arbitrage.append([spot2 / spot1, to1, exchange1, from1, exchange2, to2])
+        # Store exit points and get spot
+        if to_symbol == exit_currency:
+          # trade.append(get_spot(exchange, from_symbol, to_symbol))
+          entry_points.append([get_spot(exchange, from_symbol, to_symbol), from_symbol + "\t" + to_symbol + "\t" + exchange])
+          # exit_points.append(trade)
+# 
+#     # Arbitrage - loop over each entry point
+#     arbitrage = []
+#     for trade1 in entry_points:
+#       exchange1 = trade1[0]
+#       from1 = trade1[1]
+#       to1 = trade1[2]
+#       spot1 = trade1[3]
+# 
+#       # And compare with each exit point
+#       for trade2 in exit_points:
+#         exchange2 = trade2[0]
+#         from2 = trade2[1]
+#         to2 = trade2[2]
+#         spot2 = trade2[3]
+# 
+#         # Store if the trades share a common currency
+#         if from1 == from2:
+#           arbitrage.append([spot2 / spot1, to1, exchange1, from1, exchange2, to2])
 
     # Arbitrage summary - sort and report
-    print("#", c, flush=True)
-    print("* Entry points", len(entry_points))
-    print("* Permutations", len(arbitrage))
-    arbitrage.sort()
-    arbitrage.reverse()
-    tabulate(arbitrage)
+    # print("#", c, flush=True)
+    # print("* Entry points", len(entry_points))
+    # print("* Permutations", len(arbitrage))
+    # arbitrage.sort()
+    # arbitrage.reverse()
+
+    print("\n#", c, flush=True)
+    entry_points.sort()
+    for x in entry_points:
+        print(x[0], "\t", x[1])
 
 except Exception as e:
     print("exception ", e)
