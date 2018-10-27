@@ -1,4 +1,3 @@
 Coinbase
 Coinroom
-CoinsBank
 DSX
